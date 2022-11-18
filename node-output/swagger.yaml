@@ -1,0 +1,185 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "This is a API for performing CRUD operations of Food Recipe App Customers",
+    "version" : "1.0.0",
+    "title" : "Food Recipe API",
+    "contact" : {
+      "email" : "apoorvasy@gmail.com"
+    },
+    "license" : {
+      "name" : "C#(dotnet license)",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/apoorvayaligar/FoodRecipeAPI/1.0.0",
+  "tags" : [ {
+    "name" : "backendadminapps",
+    "description" : "Secured Backend client app Admin-only calls"
+  }, {
+    "name" : "foodRecipeUsers",
+    "description" : "Operations available to regular Food Recipe Users"
+  } ],
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/foodrecipe" : {
+      "get" : {
+        "tags" : [ "foodRecipeUsers" ],
+        "summary" : "get all the recipes",
+        "description" : "By passing in the appropriate options, you can get all the recipes available in the system\n",
+        "operationId" : "getFoodRecipeList",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "maximum number of records to return",
+          "required" : false,
+          "type" : "integer",
+          "maximum" : 500,
+          "minimum" : 0,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfully fetched recipes",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/RecipeItem"
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          },
+          "401" : {
+            "description" : "Unauthorized access"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "backendadminapps" ],
+        "summary" : "adds recipe record",
+        "description" : "Adds Recipe record",
+        "operationId" : "addRecipe",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "recipeData",
+          "description" : "Recipe item to add",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/RecipeItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Recipe Added Successfully"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "409" : {
+            "description" : "food recipe item already exists"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "backendadminapps" ],
+        "summary" : "modify recipe record",
+        "description" : "modify Recipe record",
+        "operationId" : "modifyRecipe",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "recipeData",
+          "description" : "Recipe item to modify",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/RecipeItem"
+          }
+        }, {
+          "name" : "id",
+          "in" : "query",
+          "description" : "send recipe id",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Recipe Added Successfully"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "500" : {
+            "description" : "Server Error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "backendadminapps" ],
+        "summary" : "delete recipe record",
+        "description" : "delete Recipe record",
+        "operationId" : "deleteRecipe",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "description" : "send recipe id",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Recipe Deleted Successfully"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "401" : {
+            "description" : "Unauthorized access"
+          },
+          "500" : {
+            "description" : "Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "RecipeItem" : {
+      "type" : "object",
+      "required" : [ "id", "ingredientsList", "mealType", "numberOfServings", "title" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "example" : "F101"
+        },
+        "title" : {
+          "type" : "string",
+          "example" : "Cake"
+        },
+        "mealType" : {
+          "type" : "string",
+          "example" : "MangoCake"
+        },
+        "numberOfServings" : {
+          "type" : "integer",
+          "format" : "int32",
+          "example" : 2
+        },
+        "ingredientsList" : {
+          "type" : "array",
+          "example" : [ "Rice", "Spices" ],
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}
